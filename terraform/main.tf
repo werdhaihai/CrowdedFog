@@ -19,4 +19,5 @@ resource "azurerm_storage_account" "client_sa" {
 
 output "storage_account_primary_access_key" {
   value = { for k, sa in azurerm_storage_account.client_sa : k => sa.primary_access_key }
+  sensitive = true
 }
