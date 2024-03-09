@@ -1,0 +1,19 @@
+name: Audit Azure Resources
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Azure CLI
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_READ }}
+
+    - name: List Storage Accounts
+      run: az storage account list --query "[].{Name:name,ResourceGroup:resourceGroup}" --output table
